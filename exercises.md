@@ -86,7 +86,7 @@ Sie die Datei diesem Git-Repository hinzu.
 1. Wie gross sind die drei Dateien gemäss Anzeige im Web-Interface (grob
    zusammengerechnet)?
 2. Wie gross ist der `hello`-Bucket auf dem Dateisystem unter `~/minio-data`?
-   Verwenden Sie den Befehl `du -hs` um die Groesse zu ermitteln!
+   Verwenden Sie den Befehl `du -hs` um die Grösse zu ermitteln!
 3. Betrachten Sie die Dateien und Ordner im Verzeichnis `~/minio-data/hello`.
    Wie sind die Daten organisiert, und warum ist das wohl so gelöst?
 
@@ -114,6 +114,8 @@ Die Konnektivität kann mithilfe des `ping`-Befehls überprüft werden:
 
     $ mc ping local
 
+Mit `[Ctrl]-[C]` stoppen Sie die `ping`-Endlosschleife.
+
 ### Client-Befehle kennenlernen
     
 Der Minio-Client `mc` bietet zahlreiche Befehle, die man von Unix/Linux her kennt:
@@ -137,12 +139,12 @@ den herkömmlichen Befehlen.
 und Bucket (`[Alias]/[Bucket]`) angibt:**
 
     $ mc ls local/hello
-    [2022-12-04 13:31:53 CET] 346KiB STANDARD arch-btw.png # TODO: andere Datei verwenden
+    [2022-12-04 13:31:53 CET] 346KiB STANDARD minio-logo.png
     [2022-12-04 13:32:07 CET] 2.0KiB STANDARD exercises.md
     [2022-12-04 13:32:59 CET]  24MiB STANDARD mc
 
     $ mc head -n 1 local/hello/exercises.md
-    TODO: Ausgabe dokumentieren
+    # Übungen zu S3/Minio
 
 Weiter bietet `mc` einige Befehle, die nur im Zusammenhang mit einem S3-Storage
 sinnvoll sind. Die folgenden Befehle dienen dem Umgang mit Buckets und
@@ -221,8 +223,8 @@ Kopieren Sie die drei Dateien aus dem `backup`-Bucket in den
 Dokumentieren Sie die drei Befehle in der Datei `aufgabe-3.txt`, welche Sie
 diesem Git-Repository hinzufügen.
 
-Kontrollieren Sie auch im MinIO-GUI im Browser, ob alle Dateien erfolgreich
-kopiert worden sind.
+Kontrollieren Sie nun im MinIO-GUI im Browser sowie per `s3cmd ls`-Befehl, ob
+alle Dateien erfolgreich kopiert worden sind.
 
 ## Aufgabe 4: s3fs
 
@@ -245,7 +247,7 @@ Inhalt:
     $ chmod 600 ~/.passwd-s3fs
 
 Dadurch stellen Sie sicher, dass nur Ihr Benutzer diese Datei lesen und
-schreiben kann.
+schreiben kann (`s3fs` verweigert sonst den Dienst).
 
 Erstellen Sie nun mit dem `mkdir`-Befehl ein Verzeichnis `~/minio-mount` mit
 Unterverzeichnissen für die verschiedenen Buckets:
@@ -264,8 +266,8 @@ eingehängt werden:
 Die Unterverzeichnisse von `~/minio-mount/` können nun weitgehend wie lokale
 Ordner verwendet werden.
 
-Kopieren Sie nun eine Datei in alle drei Buckets über das
-`~/minio-mount/`-Verzeichnis.
+Kopieren Sie nun eine beliebige Datei, die noch nicht in MinIO vorhanden ist, in
+alle drei Buckets über das `~/minio-mount/`-Verzeichnis.
 
 Überprüfen Sie nun im MinIO-GUI im Browser, ob Sie die Datei in jedem Bucket
 sehen können.
@@ -285,6 +287,9 @@ Mit dem `umount`-Befehl können die Buckets wieder vom Dateisystem gelöst werde
     $ umount ~/minio-mount/backup
     $ umount ~/minio-mount/backup-copy/
 
+(Zwar gibt es hierfür auch den `s3fs unmount`-Befehl, es ist aber bemerkenswert,
+dass dies auch mit dem gewöhnlichen `umount`-Befehl funktioniert.)
+
 Mit `find` können Sie nun überprüfen, dass keine Dateien mehr "da" sind, sondern
 nur noch die Verzeichnisse:
 
@@ -294,7 +299,8 @@ nur noch die Verzeichnisse:
     minio-mount/hello
     minio-mount/backup
 
-Die Dateien existieren aber weiterhin in MinIO.
+Die Dateien existieren aber weiterhin in MinIO, was Sie gerne über den Browser,
+per `mc ls` oder per `s3cmd ls` überprüfen können.
 
 ### Aufgabe 5: Einsatzgebiete
 
@@ -302,16 +308,16 @@ Sie haben mit MinIO und den Hilfsprogrammen `mc`, `s3cmd` und `s3fs` nun einige
 Werkzeuge zum Umgang mit dem S3-Storage kennengelernt.
 
 Überlegen Sie sich je einen Anwendungsfall für den privaten und den
-professionellen (z.B. Ihr Lehrbetrieb) Bereich, und beschreiben Sie diesen in
-der Datei `aufgabe-5.md`.
+professionellen Bereich (z.B. für Ihren Lehrbetrieb), und beschreiben Sie
+diese beiden in der Datei `aufgabe-5.md`.
 
 Gehen Sie dabei davon aus, dass nicht bloss ein lokaler Storage, sondern
-derjenige von einem Public-Cloud-Anbieter verwendet wird.
+derjenige von einem Public-Cloud-Anbieter verwendet wird, und dass Sie die
+Region dafür frei wählen können.
 
 ### Zusatzaufgabe
 
 Bearbeiten Sie Auftrag 5 und Auftrag 6 in
 `auftrag-mengen-und-kostenabschaetzung.pdf` auf Seite 3 (siehe Unterlagen auf
-Teams).  (Auftrag 6 können Sie erst bearbeiten, wenn Sie das Mengengerüst
+Teams). (Auftrag 6 können Sie erst bearbeiten, wenn Sie das Mengengerüst
 berechnet haben.)
-

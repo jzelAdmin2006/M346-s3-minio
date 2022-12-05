@@ -55,7 +55,7 @@ Lassen Sie den Server nun in diesem Terminal laufen.
 
 ### Auf Web-Interface einloggen
 
-Besuchen Sie nun die Seite [localhost:9000](https://localhost:9000). Sie werden
+Besuchen Sie nun die Seite [localhost:9000](http://localhost:9000). Sie werden
 zu einem Login-Bildschirm weitergeleitet.
 
 Loggen Sie sich mit dem zuvor definierten Benutzernamen und Passwort ein.
